@@ -1,0 +1,10 @@
+pandas==0.24.2
+pydub==0.23.1
+ray==0.8.2
+librosa==0.7.2
+tensorflow_gpu==2.0.0
+numpy==1.17.3
+tqdm==4.31.1
+inaSpeechSegmenter==0.5.1
+scikit_learn==0.22.2.post1
+tensorflow==2.1.0
