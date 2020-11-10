@@ -1,19 +1,21 @@
 #!/bin/bash
 
 export LC_ALL=C
-python_path=~/anaconda3/bin
-stage=1
+source ~/anaconda3/bin/activate ~/anaconda3/envs/speech_env
+#python_path=~/anaconda3/bin
+stage=2
 
 
-DATA_PATH=$PWD'/sample_data/segmented_data'
+#DATA_PATH=$PWD'/sample_data/segmented_data'
+DATA_PATH=$PWD'/sample_data'
 echo $DATA_PATH
 
-TOTAL_SPLIT=2
+TOTAL_SPLIT=1
 #Split data folder into multiple chunk
-if [ $stage -eq 1 ]; then
-CUDA_VISIBLE_DEVICES=1 $python_path/python ./src/split_data_segments.py --source $DATA_PATH --split $TOTAL_SPLIT
+#if [ $stage -eq 1 ]; then
+#CUDA_VISIBLE_DEVICES=1 $python_path/python ./src/split_data_segments.py --source $DATA_PATH --split $TOTAL_SPLIT
 
-fi
+#fi
 
 echo $stage
 
@@ -21,7 +23,7 @@ echo $stage
 if [ $stage -le 2 ]; then
 mkdir -p exp/embeddings
 for (( split=1; split<=$TOTAL_SPLIT; split++ )); do
-  CUDA_VISIBLE_DEVICES=1 $python_path/python ./src/extract_embedding_from_model.py \
+  python ./src/extract_embedding_from_model.py \
       --feat_type mfcc \
       --feat_dim 40 \
       --nfft 512 \
@@ -33,7 +35,7 @@ for (( split=1; split<=$TOTAL_SPLIT; split++ )); do
       --total_split $TOTAL_SPLIT \
       --current_split $split \
       --save_folder exp/embeddings \
-      --model_name spk2vec_test24_aug \
+      --model_name spk2vec_aug \
       --softmax_num 1211 \
       --resume_startpoint 6992000 \
       --segments_format True \
@@ -47,12 +49,12 @@ fi
 # The last column in seg2spk file represent speaker ID.
 if [ $stage -le 3 ]; then
 
-CUDA_VISIBLE_DEVICES=1 $python_path/python ./src/spk_clustering.py \
+python ./src/spk_clustering.py \
       --max_spks 5 \
       --data_folder $DATA_PATH \
       --total_split $TOTAL_SPLIT \
       --embedding_folder exp/embeddings \
-      --model_name spk2vec_test24_aug \
+      --model_name spk2vec_aug \
       --embedding_layer softmax/fc2
 
 fi
