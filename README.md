@@ -1,14 +1,13 @@
-# speaker_clustering
+# Installation
 
-run bash script in scripts/run_speaker_clustering.sh
-with stage 2 and 3
-stage=1 splits the data into subtask - no need now.
-To run the 2nd and 3rd stage you will need sample_data/wav.scp, sample_data/segments and segmented_wav
+1- Create new invironment from `environment.yml`
 
-First step extract embedding #stage2
-Then do a speaker clustering #stage=3
+`conda env create -f environment.yml`
 
-Keep the parameters same in the bash script except the TOTAL_SPLIT=2 #1 if no split is done
+2- Change the path to the model `/home/stageapp/data/qats1/scripts/speaker_clustering/saver/` in `src/extract_embedding_from_model.py`. 
 
-The output of /src/spk_clustering.py is seg2spk where the last column represent the speaker id. 
---max_spks 5 #represent the maximum possible speaker - you can use 10
+3- Change the following in `utt2spk.sh`
+
+- the path to the installed env `source /home/stageapp/data/qats1/espnet/tools/venv/bin/activate /home/stageapp/data/qats1/espnet/tools/venv/envs/inaseg`
+- the path to where the script extracted `script_path=/home/stageapp/data/qats1/scripts/speaker_clustering`
+
