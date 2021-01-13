@@ -1,13 +1,13 @@
 #!/bin/bash
 
 export LC_ALL=C
-source ~/anaconda3/bin/activate ~/anaconda3/envs/speech_env
+source ~/anaconda3/bin/activate ~/anaconda3/envs/inaseg
 #python_path=~/anaconda3/bin
 stage=2
 
 
 #DATA_PATH=$PWD'/sample_data/segmented_data'
-DATA_PATH=$PWD'/sample_data'
+DATA_PATH=$1
 echo $DATA_PATH
 
 TOTAL_SPLIT=1
@@ -17,7 +17,7 @@ TOTAL_SPLIT=1
 
 #fi
 
-echo $stage
+#echo $stage
 
 #Extract speaker embedding using Tensorflow
 if [ $stage -le 2 ]; then
@@ -50,7 +50,7 @@ fi
 if [ $stage -le 3 ]; then
 
 python ./src/spk_clustering.py \
-      --max_spks 5 \
+      --max_spks 20 \
       --data_folder $DATA_PATH \
       --total_split $TOTAL_SPLIT \
       --embedding_folder exp/embeddings \

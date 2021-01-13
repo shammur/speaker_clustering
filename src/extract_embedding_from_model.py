@@ -6,6 +6,7 @@ from tqdm import tqdm
 
 import os,sys
 import tensorflow as tf
+
 import numpy as np
 import librosa
 
@@ -85,7 +86,7 @@ else:
     feat, _, utt_shape, tffilename = ft.feat_extract(seg_wavlist,FEAT_TYPE,N_FFT,HOP,VAD,CMVN,EXCLUDE_SHORT,seg_windows=seg_windows)
 
 
-SAVER_FOLDERNAME = 'saver/'+NN_MODEL+'_'+tffilename
+SAVER_FOLDERNAME = '/home/stageapp/data/qats1/scripts/speaker_clustering/saver/'+NN_MODEL+'_'+tffilename
 nn_model = __import__(NN_MODEL)
 
 x = tf.placeholder(tf.float32, [None,None,FEAT_DIM])
